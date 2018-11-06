@@ -1,0 +1,181 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+        <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">商品规格管理</h4>
+                </div>
+                <div role="tabpanel" class="tab-pane active">
+                    <div class="panel panel-default text-xs">
+                        <div class="panel-heading clearfix">
+                             <div class="pull-left">
+                                <p><i class="fa fa-umbrella m-r-sm"></i>友情提示</p>
+                                <p><span class="m-r-sm">*</span>通过商品规格管理，你可以进行新增、编辑、删除商品规格</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix m-b-xs">
+                        <span>尺寸管理</span>
+                        <button type="button" class=" add btn blueBtn btn-info text-xs pull-right  w-xs"  data-toggle="modal" data-target="#sizeModal">新增</button>
+                    </div>
+                     <table class="table bg-white b-a table-striped table-bordered m-b-lg">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>规格</th>
+                                <th>规格类型</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;"  id="size_list" v-cloak>
+                            <tr v-for="(todo,index) in res" v-if="isNull">
+                                <td>{{index+1}}</td>
+                                <td class="size">尺寸</td>
+                                <td>{{todo.size}}</td>
+                                <td><a class="operate" data-toggle="modal" data-target="#sizeModal" @click='editData(todo)'>编辑</a><a class=" operate" @click="deleteData(todo.id)">删除</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                    </table>
+                    <div class="clearfix m-b-xs">
+                        <span>材质管理</span>
+                        <button type="button" class=" add btn blueBtn btn-info text-xs pull-right  w-xs"  data-toggle="modal" data-target="#materialModal">新增</button>
+                    </div>
+                     <table class="table bg-white b-a table-striped table-bordered m-b-lg">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>规格</th>
+                                <th>规格类型</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;"  id="material_list" v-cloak>
+                            <tr v-for="(todo,index) in res" v-if="isNull">
+                                <td>{{index+1}}</td>
+                                <td class="material">材质</td>
+                                <td>{{todo.material}}</td>
+                                <td><a class="operate" data-toggle="modal" data-target="#materialModal" @click='editData(todo)'>编辑</a><a class=" operate" @click="deleteData(todo.id)">删除</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                    </table>
+                    <div class="clearfix m-b-xs">
+                        <span>颜色管理</span>
+                        <button type="button" class=" add btn blueBtn btn-info text-xs pull-right  w-xs"  data-toggle="modal" data-target="#colorModal">新增</button>
+                    </div>
+                     <table class="table bg-white b-a table-striped table-bordered m-b-lg">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>规格</th>
+                                <th>规格类型</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;"  id="color_list" v-cloak>
+                            <tr v-for="(todo,index) in res" v-if="isNull">
+                                <td>{{index+1}}</td>
+                                <td class="color">颜色</td>
+                                <td>{{todo.color}}</td>
+                                <td><a class="operate" data-toggle="modal" data-target="#colorModal" @click='editData(todo)'>编辑</a><a class=" operate" @click="deleteData(todo.id)">删除</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+                <div class="modal fade" id="sizeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_goods_size">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">商品尺寸</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" >
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">尺寸类型：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" placeholder="请输入尺寸类型" v-model='res.size' required>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='updateData(res)' v-if="isEdit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="materialModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_goods_material">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">商品材质</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" >
+                                    <div class="form-group">
+                                        <label  class="col-sm-3 control-label">材质类型：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control"  placeholder="请输入材质类型" v-model='res.material' required>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='updateData(res)' v-if="isEdit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="colorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_goods_color">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">商品颜色</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" >
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">颜色类型：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" placeholder="请输入颜色类型" v-model='res.color' required>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='updateData(res)' v-if="isEdit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+require(['/js/goods_size.js']);
+    
+        /*$.bootstrapDialog.success('aaaaaaaaaa');*/
+    
+</script>
+<% include common/foot.html %>

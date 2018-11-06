@@ -1,0 +1,105 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<style>
+.table td{
+    padding:  5px 10px!important;
+}
+</style>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+            <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">商品类型管理</h4>
+                </div>
+                <div role="tabpanel" class="tab-pane active">
+                    <div class="panel panel-default text-xs">
+                        <div class="panel-heading clearfix">
+                             <div class="pull-left">
+                                <p><i class="fa fa-umbrella m-r-sm"></i>友情提示</p>
+                                <p><span class="m-r-sm">*</span>通过商品分类管理，你可以进行查看、编辑、删除系统商品分类</p>
+                            </div>
+                             <button type="button" class=" add btn blueBtn btn-info text-xs pull-right m-t-md w-xs"  data-toggle="modal" data-target="#myModal">新增</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <form action="" role="form">
+                            <table class="table bg-white b-a table-striped table-bordered m-b-xs">
+                            <thead>
+                            <tr>
+                                <th>下级</th>
+                                <th>序号</th>
+                                <th>类型名称</th>
+                                <th>操作</th>
+                               <!--  <th>管理下级类型</th> -->
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;"  id="type_list">
+                            <tr v-for="(todo,index) in res.list" v-if="isNull" v-cloak>
+                                <td style="width:60px;"><a class="operate show_z_type" @click="z_type_list(index,todo.id)" v-bind:data-param="index"><i class="fa fa-plus-circle"></i><i class="fa fa-minus-circle hide"></i></a></td>
+                                <td style="width:60px;">{{index+1}}</td>
+                                <td>{{todo.type}}</td>
+                                <td><a class="operate" data-toggle="modal" data-target="#myModal" @click='editData(todo)'>编辑</a><a class=" operate deleteData" v-bind:data-param="todo.id">删除</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </form>
+                        <ul id="page" class="m-pagination" style="margin-right: 20px;float: right" v-if="!isNull"></ul>
+                    </div>
+                </div>
+                <!--子类型模板-->
+                <table class="hide">
+                    <tbody style="counter-reset: issues 0;"  id="z_type_list">
+                    <tr v-for="(todo,index) in res" class="addTr">
+                        <td colspan="2" style="padding-left:50px!important;"><a class="operate"><i class="fa fa-minus-circle m-r-sm" ></i></a>{{index+1}}</td>
+                        <td>{{todo.type}}</td>
+                        <td><a class="operate" data-toggle="modal" data-target="#myModal" @click='editData(todo)'>编辑</a><a class=" operate deleteData" v-bind:data-param="todo.id">删除</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_goods_type">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">商品类型</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" >
+                                    <div class="form-group">
+                                        <label for="type" class="col-sm-3 control-label">类型名称：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="type" placeholder="请输入类型名称" v-model='res.type'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="f_type_id" class="col-sm-3 control-label">选择关联父级：</label>
+                                        <div class="col-sm-8">
+                                            <select name="f_type_id" id="f_type_id" class="form-control" v-model='res.f_type_id'>
+                                                <option value="0" >无</option>
+                                                <option  v-bind:value="todo.id" v-for="todo in f_type.data">{{todo.type}}</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='updateData(res)' v-if="isEdit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+require(['/js/goods_type.js']);
+</script>
+<% include common/foot.html %>

@@ -1,0 +1,87 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+        <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">订单管理</h4>
+                </div>
+                <div class="nav-tabs-alt">
+                    <ul class="nav nav-tabs" role="tablist" style="border-bottom: 1px solid #ddd;">
+                        <li class="active book_status" data-param="0">
+                            <a class="h5" data-target="#waiting" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                待付款
+                            </a>
+                        </li>
+                        <li class="book_status" data-param="1">
+                            <a class="h5" data-target="#waiting" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已付款
+                            </a>
+                        </li>
+                        <li class="book_status" data-param="2">
+                            <a class="h5" data-target="#up" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                待发货
+                            </a>
+                        </li>
+                        <li class="book_status" data-param="2">
+                            <a class="h5" data-target="#down" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已发货
+                            </a>
+                        </li>
+                        <li class="book_status" data-param="3">
+                            <a class="h5" data-target="#down" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已收货
+                            </a>
+                        </li>
+                        <li class="book_status" data-param="4">
+                            <a class="h5" data-target="#down" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已完成
+                            </a>
+                        </li>
+                        <li class="book_status" data-param="5">
+                            <a class="h5" data-target="#down" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已评价
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane active">
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>订单编号</th>
+                                    <th>买家id</th>
+                                    <th>下单时间</th>
+                                    <th>订单总额</th>
+                                    <th>订单状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;"  id="book" v-cloak>
+                                <tr v-for="(todo,index) in res.list" v-if="isNull">
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.book_id}}</td>
+                                    <td>{{todo.user_name}}</td>
+                                    <td>{{todo.create_time}}</td>
+                                    <td>￥{{(parseFloat(todo.book_total)).toFixed(2)}}</td>
+                                    <td>{{book_status_str}}</td>
+                                    <td><a class="look operate" :href="['/book_query?t='+todo.id+'&s='+book_status_str]">查看</a></td>
+                                </tr>
+                                <tr><td colspan="7" v-if="!isNull">暂无订单</td></tr>
+                                </tbody>
+                            </table>
+                            <ul id="page" class="m-pagination" style="margin-right: 20px;float: right"></ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+require(['/js/book.js']);
+</script>
+<% include common/foot.html %>

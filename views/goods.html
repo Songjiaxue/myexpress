@@ -1,0 +1,152 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<style>
+    #preview img{
+        width: 300px;
+        height: 200px;
+    }
+</style>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+            <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">商品管理</h4>
+                </div>
+                <div role="tabpanel" class="tab-pane active">
+                    <div class="panel panel-default text-xs">
+                        <div class="panel-heading clearfix">
+                            <div class="pull-left">
+                                <p><i class="fa fa-umbrella m-r-sm"></i>友情提示</p>
+                                <p><span class="m-r-sm">*</span>通过商品管理，你可以进行查看、编辑、删除、新增商品</p>
+                            </div>
+                            <button type="button" class=" add btn  btn-info text-xs pull-right m-t-md w-xs  m-r"  data-toggle="modal" data-target="#addModal">新增</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table bg-white b-a table-striped m-b-xs">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>商品名称</th>
+                                <th>商品编号</th>
+                                <th>分类名</th>
+                                <th>商品尺寸</th>
+                                <th>商品材质</th>
+                                <th>商品颜色</th>
+                                <th>服务</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;"  id="goods" v-cloak>
+                            <tr v-for="(todo,index) in res.list" v-if="isNull">
+                                <td>{{index+1}}</td>
+                                <td>{{todo.goods_name}}</td>
+                                <td>{{todo.goods_id}}</td>
+                                <td>{{(todo.goods_type==0)?'无':todo.goods_type}}</td>
+                                <td>{{(todo.goods_size==0)?'无':todo.goods_size}}</td>
+                                <td>{{(todo.goods_material==0)?'无':todo.goods_material}}</td>
+                                <td>{{(todo.goods_color==0)?'无':todo.goods_color}}</td>
+                                <td>{{(todo.service == 0)?'自行安装':'上门安装'}}</td>
+                                <td style="min-width:140px;"><a class="operate" @click="editData(todo)" data-toggle="modal" data-target="#addModal">编辑</a><a class="operate" @click="deleteData(todo.id)">删除</a><a class=" operate" @click="findData(todo)" data-toggle="modal" data-target="#addModal">查看</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="9" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <ul id="page" class="m-pagination" style="margin-right: 20px;float: right"></ul>
+                    </div>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_goods" v-cloak>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">商品</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" id="add_form" data-parsley-validate>
+                                    <div class="form-group">
+                                        <label for="goods_name" class="col-sm-3 control-label">商品名称：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control" id="goods_name" placeholder="请输入商品名称" v-model='res.goods_name' data-trigger="change" data-parsley-required-message="该项必填" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">商品图：</label>
+                                        <div class="col-sm-8">
+                                            <div id="preview">
+                                                <img src="/images/img_default.jpg" alt=""/>
+                                            </div>
+                                            <button class="btn btn-info w-sm uploadBtn m-t" type="button">上传图片</button>
+                                            <input type="file" id="goods_img" class="hide" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goods_type" class="col-sm-3 control-label">选择关联类型：</label>
+                                        <div class="col-sm-8">
+                                            <select  id="goods_type" class="form-control" v-model='res.goods_type'>
+                                                <option value="0" >无</option>
+                                                <option  :value="todo_type.type" v-for="todo_type in type">{{todo_type.type}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="col-sm-3 control-label">商品尺寸：</label>
+                                        <div class="col-sm-8">
+                                            <select  class="form-control" v-model='res.goods_size'>
+                                                <option value="0" >无</option>
+                                                <option  :value="todo_size.size" v-for="todo_size in size">{{todo_size.size}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goods_color" class="col-sm-3 control-label">商品颜色：</label>
+                                        <div class="col-sm-8">
+                                            <select  id="goods_color" class="form-control" v-model='res.goods_color'>
+                                                <option value="0" >无</option>
+                                                <option  :value="todo_color.color" v-for="todo_color in color">{{todo_color.color}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="goods_material" class="col-sm-3 control-label">商品材质：</label>
+                                        <div class="col-sm-8">
+                                            <select  id="goods_material" class="form-control" v-model='res.goods_material'>
+                                                <option value="0" >无</option>
+                                                <option  :value="todo_material.material" v-for="todo_material in material">{{todo_material.material}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="service" class="col-sm-3 control-label">服务：</label>
+                                        <div class="col-sm-8">
+                                            <select  id="service" class="form-control" v-model='res.service'>
+                                                <option  value="0">自行安装</option>
+                                                <option value="1" selected>上门安装</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="submitData hide" type="submit"></button>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit&&!isFind">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='updateData(res)' v-if="isEdit&&!isFind">修改</button>
+                                <button type="button" class="btn btn-info w-xs" data-dismiss="modal" v-if="!isEdit&&isFind">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    require(['/js/goods.js']);
+</script>
+<% include common/foot.html %>

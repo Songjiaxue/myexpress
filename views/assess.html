@@ -1,0 +1,128 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+        <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">商品评价</h4>
+                </div>
+                <div class="nav-tabs-alt">
+                    <ul class="nav nav-tabs" role="tablist" style="border-bottom: 1px solid #ddd;">
+                        <li class="active assess" data-param="0">
+                            <a class="h5"  role="tab" data-target="#wa_assess" data-toggle="tab" style="color:#2f8cff!important">
+                                待回复
+                            </a>
+                        </li>
+                        <li class="assess" data-param="1">
+                            <a class="h5" role="tab" data-target="#al_assess" data-toggle="tab" style="color:#2f8cff!important">
+                                已回复
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="wa_assess">
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>买家id</th>
+                                    <th>买家评价</th>
+                                    <th>买家评价详情</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;"  id="assess" v-cloak>
+                                <tr v-for="(todo,index) in res.list" v-if="isNull">
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.goods_name}}</td>
+                                    <td>{{todo.user_name}}</td>
+                                    <td>{{todo.assess}}</td>
+                                    <td>{{todo.assess_details}}</td>
+                                    <td><a class="operate" data-toggle="modal" data-target="#assessModal" @click="upData(todo.id)">回复</a></td>
+                                </tr>
+                                <tr><td colspan="6" v-if="!isNull">暂无订单</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="al_assess">
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>买家id</th>
+                                    <th>买家评价</th>
+                                    <th>买家评价详情</th>
+                                    <th>卖家回复</th>
+                                    <th>卖家回复详情</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;"  id="assess" v-cloak>
+                                <tr v-for="(todo,index) in res.list" v-if="isNull">
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.goods_name}}</td>
+                                    <td>{{todo.user_name}}</td>
+                                    <td>{{todo.assess}}</td>
+                                    <td>{{todo.assess_details}}</td>
+                                    <td>{{todo.assess_back}}</td>
+                                    <td>{{todo.assess_back_details}}</td>
+                                </tr>
+                                <tr><td colspan="7" v-if="!isNull">暂无订单</td></tr>
+                                </tbody>
+                            </table>
+                           
+                        </div>
+                    </div>
+                     <ul id="page" class="m-pagination" style="margin-right: 20px;float: right"></ul>
+                </div>
+                
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="assessModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_assess" v-cloak>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">回复评价</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" id="add_form">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">回复评价：</label>
+                                        <div class="col-sm-8">
+                                            <select v-model="res.assess_back" class="form-control">
+                                                <option value="0">好评</option>
+                                                <option value="1">差评</option>
+                                                <option value="2">中评</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">评价详情：</label>
+                                        <div class="col-sm-8">
+                                            <textarea rows="5" v-model="res.assess_back_details" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)'>确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+require(['/js/assess.js']);
+</script>
+<% include common/foot.html %>

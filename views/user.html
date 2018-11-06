@@ -1,0 +1,77 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+            <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">会员管理</h4>
+                </div>
+                <div class="panel panel-default text-xs">
+                    <div class="panel-heading clearfix">
+                        <p><i class="fa fa-umbrella m-r-sm"></i>友情提示</p>
+                        <p><span class="m-r-sm">*</span>通过会员管理，你可以查看所有的会员</p>
+                        <p><span class="m-r-sm">*</span>普通会员：消费金额超过500元</p>
+                        <p><span class="m-r-sm">*</span>超级会员：消费金额超过1000元</p>
+                    </div>
+                </div>
+                <div class="padder-v">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="control-label pull-left padder">会员类型：</label>
+                            <div class="col-sm-2">
+                                <select id="search_type" class="form-control">
+                                    <option value="-1">请选择</option>
+                                    <option value="0">普通会员</option>
+                                    <option value="1">超级会员</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-info w-sm pull-left" id="search">查询</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="table-responsive"   id="user" v-cloak>
+                    <table class="table bg-white b-a table-striped m-b-xs">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>会员名</th>
+                            <th>真实姓名</th>
+                            <th>邮箱</th>
+                            <th>性别</th>
+                            <th>手机号码</th>
+                            <th>创建时间</th>
+                            <th>消费总额</th>
+                            <th>类型</th>
+                            <th>caozuo</th>
+                        </tr>
+                        </thead>
+                        <tbody style="counter-reset: issues 0;" >
+                        <tr v-for="(todo,index) in res" v-if="isNull">
+                            <td>{{index+1}}</td>
+                            <td>{{todo.username}}</td>
+                            <td>{{todo.name}}</td>
+                            <td>{{todo.email}}</td>
+                            <td>{{(todo.sex==0)?'男':'女'}}</td>
+                            <td>{{todo.phone}}</td>
+                            <td>{{todo.create_time}}</td>
+                            <td>￥{{(parseFloat(todo.cost)).toFixed(2)}}</td>
+                            <td>{{(todo.user_type==0)?'普通会员':'超级会员'}}</td>
+                            <td><span @click="deleteData(todo.id)" class="text-info">删除</span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="9" v-if="!isNull">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                     <ul id="page" class="pagination" style="margin-right: 20px;float: right"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+require(['/js/user.js']);
+    
+</script>
+<% include common/foot.html %>

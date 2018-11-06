@@ -1,0 +1,20 @@
+$.extend($.fn.datepicker.defaults , {
+    autoclose: true,
+    beforeShowDay: $.noop,
+    calendarWeeks: false,
+    clearBtn: false,
+    daysOfWeekDisabled: [],
+    endDate: Infinity,
+    forceParse: true,
+    format: 'yyyy-mm-dd',
+    keyboardNavigation: true,
+    language: 'zh-CN',
+    minViewMode: 0,
+    orientation: "top",
+    rtl: false,
+    startDate: -Infinity,
+    startView: 0,
+    todayBtn: false,
+    todayHighlight: true,
+    weekStart: 1
+});

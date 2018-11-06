@@ -1,0 +1,117 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+            <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">优惠券管理</h4>
+                </div>
+                <div role="tabpanel" class="tab-pane active">
+                    <div class="panel panel-default text-xs">
+                        <div class="panel-heading clearfix">
+                            <div class="pull-left">
+                                <p><i class="fa fa-umbrella m-r-sm"></i>友情提示</p>
+                                <p><span class="m-r-sm">*</span>通过优惠券管理，你可以进行新增、编辑、删除优惠券</p>
+                            </div>
+                            <button type="button" class=" add btn  btn-info text-xs pull-right m-t-md w-xs  m-r"  data-toggle="modal" data-target="#addModal">新增</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table bg-white b-a table-striped m-b-xs">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>优惠券名称</th>
+                                <th>优惠券金额</th>
+                                <th>可用订单金额</th>
+                                <th>开始时间</th>
+                                <th>结束时间</th>
+                                <th>发行数量</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;" id="coupon" v-cloak>
+                            <tr v-for="(todo,index) in res" v-if="isNull">
+                                <td>{{index+1}}</td>
+                                <td>{{todo.coupon_name}}</td>
+                                <td>￥{{(parseFloat(todo.coupon_total)).toFixed(2)}}</td>
+                                <td>￥{{(parseFloat(todo.coupon_money)).toFixed(2)}}</td>
+                                <td>{{todo.start_time}}</td>
+                                <td>{{todo.end_time}}</td>
+                                <td>{{todo.number}}</td>
+                                <td style="min-width:140px;"><a class="edit operate" @click="editData(todo)" data-toggle="modal" data-target="#addModal">编辑</a><a class="del operate" @click="deleteData(todo.id)">删除</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="11" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- 模态框（Modal） -->
+                <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="add_coupon" v-cloak>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">优惠券</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" id="add_form">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">优惠券名称：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control"  placeholder="请输入优惠券名称" v-model='res.coupon_name' data-trigger="change" data-parsley-required-message="该项必填" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">优惠券金额：</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control" placeholder="请输入优惠券金额" v-model='res.coupon_total' data-trigger="change" data-parsley-required-message="该项必填" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">可用订单金额：</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control" placeholder="请输入可用订单金额" v-model='res.coupon_money' data-trigger="change" data-parsley-required-message="该项必填" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">开始时间：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control datepicker"  id="start_time" v-model='res.start_time' data-trigger="change" data-parsley-required-message="该项必填" readonly required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">结束时间：</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control datepicker" id="end_time" v-model='res.end_time' data-trigger="change" data-parsley-required-message="该项必填" readonly required>
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">发行数量：</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control"  placeholder="请输入可用发行数量" v-model='res.number' data-trigger="change" data-parsley-required-message="该项必填" required>
+                                        </div>
+                                    </div>
+                                    <button class="submitData hide" type="submit"></button>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='updateData(res)' v-if="isEdit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    require(['/js/coupon.js']);
+</script>
+<% include common/foot.html %>

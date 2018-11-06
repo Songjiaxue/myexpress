@@ -1,0 +1,202 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<style>
+    #preview img{
+        width: 300px;
+        height: 200px;
+    }
+</style>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+            <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">商品上架管理</h4>
+                </div>
+                <div class="panel panel-default text-xs">
+                    <div class="panel-heading">
+                        <div>
+                            <p><i class="fa fa-umbrella m-r-sm"></i>友情提示</p>
+                            <p><span class="m-r-sm">*</span>通过商品上架管理，你可以对商品进行上架、下架处理</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-tabs-alt">
+                    <ul class="nav nav-tabs" role="tablist" style="border-bottom: 1px solid #ddd;">
+                        <li class="active goods_up" data-param="0">
+                            <a class="h5" data-target="#waiting" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                待处理
+                            </a>
+                        </li>
+                        <li class="goods_up" data-param="1">
+                            <a class="h5" data-target="#up" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已上架
+                            </a>
+                        </li>
+                        <li class="goods_up" data-param="2">
+                            <a class="h5" data-target="#down" role="tab" data-toggle="tab" style="color:#2f8cff!important">
+                                已下架
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content"> 
+                    <div role="tabpanel" class="tab-pane active" id="waiting" >
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>商品编号</th>
+                                    <th>分类名</th>
+                                    <th>商品尺寸</th>
+                                    <th>商品材质</th>
+                                    <th>商品颜色</th>
+                                    <th>服务</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;">
+                                <tr v-for="(todo,index) in res.list" v-if="isNull"v-cloak>
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.goods_name}}</td>
+                                    <td>{{todo.goods_id}}</td>
+                                    <td>{{todo.goods_type}}</td>
+                                    <td>{{todo.goods_size}}</td>
+                                    <td>{{todo.goods_material}}</td>
+                                    <td>{{todo.goods_color}}</td>
+                                    <td>{{(todo.service == 0)?'自行安装':'上门安装'}}</td>
+                                    <td style="min-width:140px;"><a class="operate" @click="upData(todo.id)" data-toggle="modal" data-target="#upModal">上架</a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9" v-if="!isNull">暂无数据</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
+                    <div role="tabpanel" class="tab-pane" id="up" >
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>商品编号</th>
+                                    <th>分类名</th>
+                                    <th>商品尺寸</th>
+                                    <th>商品材质</th>
+                                    <th>商品颜色</th>
+                                    <th>服务</th>
+                                    <th>优惠券</th>
+                                    <th>库存</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;">
+                                <tr v-for="(todo,index) in res.list" v-if="isNull"v-cloak>
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.goods_name}}</td>
+                                    <td>{{todo.goods_id}}</td>
+                                    <td>{{todo.goods_type}}</td>
+                                    <td>{{todo.goods_size}}</td>
+                                    <td>{{todo.goods_material}}</td>
+                                    <td>{{todo.goods_color}}</td>
+                                    <td>{{(todo.service == 0)?'自行安装':'上门安装'}}</td>
+                                    <td>{{todo.coupon_name}}</td>
+                                    <td>{{todo.volume}}</td>
+                                    <td style="min-width:140px;"><a class="operate" @click="downData(todo.id)">下架</a><a class="operate" @click="upData(todo)" data-toggle="modal" data-target="#upModal">编辑</a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="11" v-if="!isNull">暂无数据</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="down" >
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>商品名称</th>
+                                    <th>商品编号</th>
+                                    <th>分类名</th>
+                                    <th>商品尺寸</th>
+                                    <th>商品材质</th>
+                                    <th>商品颜色</th>
+                                    <th>服务</th>
+                                    <th>优惠券</th>
+                                    <th>库存</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;"  id="goods">
+                                <tr v-for="(todo,index) in res.list" v-if="isNull"> 
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.goods_name}}</td>
+                                    <td>{{todo.goods_id}}</td>
+                                    <td>{{todo.goods_type}}</td>
+                                    <td>{{todo.goods_size}}</td>
+                                    <td>{{todo.goods_material}}</td>
+                                    <td>{{todo.goods_color}}</td>
+                                    <td>{{(todo.service == 0)?'自行安装':'上门安装'}}</td>
+                                    <td>{{todo.coupon_name}}</td>
+                                    <td>{{todo.volume}}</td>
+                                    <td style="min-width:140px;"><a class="operate" data-toggle="modal" data-target="#upModal" @click="upData(todo.id)">上架</a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="11" v-if="!isNull">暂无数据</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <ul id="page" class="pagination" style="margin-right: 20px;float: right"></ul>
+                </div>
+                <div class="modal fade" id="upModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" id="upManage" v-cloak>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel">商品</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form" id="add_form">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">是否使用优惠券：</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" v-model='res.coupon_name'>
+                                                <option value="不使用">不使用</option>
+                                                <option  v-bind:value="todo.coupon_name" v-for="todo in coupon">{{todo.coupon_name}}</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">设置库存：</label>
+                                        <div class="col-sm-8">
+                                            <input type="number" class="form-control" placeholder="请输入库存" v-model='res.number' data-trigger="change" data-parsley-error-message="该项必填" required>
+                                        </div>
+                                    </div>
+                                    <button class="submitData hide" type="submit"></button>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="text-align:center;">
+                                <button type="button" class="btn btn-default w-xs m-r" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="!isEdit">确定</button>
+                                <button type="button" class="btn btn-info w-xs" @click='addData(res)' v-if="isEdit">修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    require(['/js/goods_up.js']);
+</script>
+<% include common/foot.html %>

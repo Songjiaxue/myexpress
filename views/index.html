@@ -1,0 +1,167 @@
+<% include common/head.html %>
+<% include common/aside.html %>
+<style>
+    .circle-wrap{
+        display: -webkit-flex; /* Safari */
+        display: flex;
+        padding: 10px 100px;
+    }
+    .circle-item{
+        -webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
+        -webkit-flex: 1;          /* Chrome */
+        -ms-flex: 1;              /* IE 10 */
+        flex: 1; 
+        text-align: center;
+    }
+    .circle-item-text{
+        border-radius: 500px;
+        border: 1px solid #2f8cff;    
+        text-align: center;
+        width:120px;
+        height: 120px;
+        line-height: 120px;
+        margin: 30px auto 10px;
+        color: #2f8cff;
+    }
+</style>
+<section id="content" class="app-content bg-white">
+    <div class="scrollable wrapper-sm" style="overflow-y: scroll;">
+        <div class=" hbox hbox-auto-xs no-border">
+        <div class="m-b-md">
+                <div class="app-main-header b-b">
+                    <h4 class="title">一周动态</h4>
+                </div>
+                <div class="nav-tabs-alt">
+                    <ul class="nav nav-tabs" role="tablist" style="border-bottom: 1px solid #ddd;">
+                        <li class="active work_list" data-param="0">
+                            <a class="h5" data-target="#goods_tab" role="tab" data-toggle="tab"  style="color:#2f8cff!important">
+                                商品
+                            </a>
+                        </li>
+                        <li class="work_list" data-param="1">
+                            <a class="h5" data-target="#book_tab" role="tab" data-toggle="tab"  style="color:#2f8cff!important">
+                                订单
+                            </a>
+                        </li>
+                        <li class="pull-right m-t-sm">
+                            <p class="m-b-none pull-right m-r-md" id="more">
+                                <a href="javascript:void(0)">更多</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content h6">
+                    <div role="tabpanel" class="tab-pane active" id="goods_tab">
+                        <table class="table bg-white b-a table-striped m-b-xs">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>商品名称</th>
+                                <th>商品编号</th>
+                                <th>分类名</th>
+                                <th>商品尺寸</th>
+                                <th>商品材质</th>
+                                <th>商品颜色</th>
+                                <th>服务</th>
+                            </tr>
+                            </thead>
+                            <tbody style="counter-reset: issues 0;" id="goods" v-cloak>
+                            <tr v-for="(todo,index) in res.list" v-if="isNull">
+                                <td>{{index+1}}</td>
+                                <td>{{todo.goods_name}}</td>
+                                <td>{{todo.goods_id}}</td>
+                                <td>{{todo.goods_type}}</td>
+                                <td>{{todo.goods_size}}</td>
+                                <td>{{todo.goods_material}}</td>
+                                <td>{{todo.goods_color}}</td>
+                                <td>{{todo.service}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" v-if="!isNull">暂无数据</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="book_tab">
+                        <div class="table-responsive">
+                            <table class="table bg-white b-a table-striped m-b-xs">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>订单编号</th>
+                                    <th>买家id</th>
+                                    <th>下单时间</th>
+                                    <th>订单总额</th>
+                                    <th>订单状态</th>
+                                </tr>
+                                </thead>
+                                <tbody style="counter-reset: issues 0;"  id="book" v-cloak>
+                                <tr v-for="(todo,index) in res" v-if="isNull">
+                                    <td>{{index+1}}</td>
+                                    <td>{{todo.book_id}}</td>
+                                    <td>{{todo.user_name}}</td>
+                                    <td>{{todo.create_time}}</td>
+                                    <td>￥{{(parseFloat(todo.book_total)).toFixed(2)}}</td>
+                                    <td>{{todo.book_status_str}}</td>
+                                </tr>
+                                <tr><td colspan="7" v-if="!isNull">暂无订单</td></tr>
+                                </tbody>
+                            </table>
+                            <ul id="page" class="m-pagination" style="margin-right: 20px;float: right"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="m-b-md">
+                <div class="app-main-header  b-b">
+                    <h4 class="title">我的任务</h4>
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="number" v-cloak>
+                        <div class="circle-wrap">
+                            <div class="circle-item">
+                                <div class="circle-item-text">{{circle1}}</div>
+                                <p>待处理商品<a class="text-xs text-info" href="/goods_up"  style="color:#23b7e5">+ More</a></p>
+                            </div>
+                            <div class="circle-item">
+                                <div class="circle-item-text">{{circle2}}</div>
+                                <p>待发货<a class="text-xs text-info" href="/book?t=2"  style="color:#23b7e5">+ More</a></p>
+                            </div>
+                            <div class="circle-item">
+                                <div class="circle-item-text">{{circle3}}</div>
+                                <p>待评价<a class="text-xs text-info" href="/book?t=5"  style="color:#23b7e5">+ More</a></p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div style="margin-bottom:100px;">
+                <div class="app-main-header b-b">
+                    <h4 class="title">系统介绍</h4>
+                </div>
+                <div class="row m-t m-b">
+                    <div class="col-sm-6">姓名：宋佳雪</div>
+                    <div class="col-sm-6">班级：商务1302</div>
+                   
+                </div>
+                <div class="row m-b">
+                     <div class="col-sm-6">学号：1312180308</div>
+                    <div class="col-sm-6">指导老师：吴功兴</div>
+                </div>
+                <div class="row m-b">
+                     <div class="col-sm-6">数据库：mysql</div>
+                    <div class="col-sm-6">服务器：node.js</div>
+                </div>
+                <div class="row m-b">
+                     <div class="col-sm-6">系统框架：express.js</div>
+                    <div class="col-sm-6">浏览器：谷歌</div>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+</section>
+<script>
+    require(['/js/index.js']);
+</script>
+<% include common/foot.html %>
+  

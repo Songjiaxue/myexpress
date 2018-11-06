@@ -1,0 +1,116 @@
+<aside id="aside" class="app-aside hidden-xs bg-dark">
+    <div class="aside-wrap">
+        <div class="hidden-xs">
+            <a href="#" aside-toggle="" class="btn btn-default btn-block bg-gd" ui-toggle-class="app-aside-folded" target=".app">
+                <i class="fa fa-dedent text"></i>
+                <i class="fa fa-indent text-active"></i>
+            </a>
+        </div>
+        <div class="navi-wrap">
+            <!-- nav -->
+            <nav ui-nav="" class="navi clearfix">
+                <ul class="nav">
+                    <li  class="active">
+                        <a href="/" menu_item_id="1">
+                            <i class="glyphicon glyphicon-home"></i>
+                            <span>主页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/user" menu_item_id="2">
+                            <i class="fa fa-bank"></i>
+                            <span>会员管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="auto" menu_item_id="3">
+                              <span class="pull-right text-muted">
+                                <i class="fa fa-fw fa-angle-right text"></i>
+                                <i class="fa fa-fw fa-angle-down text-active"></i>
+                              </span>
+                            <i class="fa fa-bell"></i>
+                            <span>商品管理</span>
+                        </a>
+                        <ul class="nav nav-sub dk">
+                            <li>
+                                <a href="/goods" menu_item_id="301">
+                                    <span>商品管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/goods_type" menu_item_id="302">
+                                    <span>商品分类管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/goods_size" menu_item_id="303">
+                                    <span>商品规格管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/goods_up" menu_item_id="304">
+                                    <span>商品上架管理</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/admin/html/home.jsp" class="auto" menu_item_id="4">
+                            <span class="pull-right text-muted">
+                                <i class="fa fa-fw fa-angle-right text"></i>
+                                <i class="fa fa-fw fa-angle-down text-active"></i>
+                            </span>
+                            <i class="fa fa-list-alt"></i>
+                            <span>交易管理</span>
+                        </a>
+                        <ul class="nav nav-sub dk">
+                            <li>
+                                <a href="/book" menu_item_id="401">
+                                    <span>订单管理</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/assess" menu_item_id="402">
+                                    <span>商品评价</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/coupon" menu_item_id="5">
+                            <i class="fa fa-comment"></i>
+                            <span>优惠券管理</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <script type="text/javascript">
+        require(['jquery','aside'], function ($,aside) {
+            aside.init_aside();
+            //初始菜单点击事件并记录的下当前用户操作状态
+            if(window.sessionStorage){
+                $(document).on("click","#aside li>a[menu_item_id]", function (e) {
+                    //e.preventDefault()
+                    var $this=$(this);
+                    if($this.attr("menu_item_id")){
+                        aside.select_menu_storage($this.attr("menu_item_id"));
+                    }else{
+                        aside.select_menu_storage(null);
+                    }
+                });
+                $("#aside [aside-toggle]a").bind("click", function (e) {
+                    var $this=$(this);
+                    setTimeout(function () {
+                        if($this.hasClass("active")){
+                            aside.close_aside_storage();
+                        }else{
+                            aside.open_aside_storage();
+                        }
+                    },100);
+                })
+            }
+        });
+    </script>
+</aside>

@@ -1,0 +1,278 @@
+html,body,a,p,span,small,h3,h5{
+    font-family: "Microsoft YaHei", sans-serif;
+}
+body{
+    background-color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+    html,body{
+        height: 100%;
+        overflow: hidden;
+    }
+    .app{
+        height: 100%;;
+    }
+    #content .scrollable{
+        height: 100%;
+    }
+    .app-content{
+        padding-bottom: 45px;
+    }
+}
+
+/* 预防代码块的出现的问题 配合main.js执行 */
+.app > .app-content{
+    visibility: hidden;
+}
+
+.index-logo{
+    max-width: 150px;
+    margin:0 20px 0 10px;
+}
+
+@media (min-width: 1200px) {
+    .modal-xl {
+        width: 1170px;
+    }
+}
+.btn-info {
+    color: #fff;
+    background-color: #2f8cff;
+    border-color: #23b7e5;
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-info.focus,
+.btn-info:active,
+.btn-info.active,
+.open > .dropdown-toggle.btn-info {
+    color: #fff;
+    background-color: #23b7e5;
+    border-color: #2f8cff;
+}
+.btn-info:active,
+.btn-info.active,
+.open > .dropdown-toggle.btn-info {
+    background-image: none;
+}
+.btn-info.disabled,
+.btn-info[disabled],
+fieldset[disabled] .btn-info,
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled.focus,
+.btn-info[disabled].focus,
+fieldset[disabled] .btn-info.focus,
+.btn-info.disabled:active,
+.btn-info[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-info.disabled.active,
+.btn-info[disabled].active,
+fieldset[disabled] .btn-info.active {
+    background-color: #2f8cff;
+    border-color: #23b7e5;
+}
+.btn-info .badge {
+    color: #2f8cff;
+    background-color: #fff;
+}
+
+/* 内容区域标题 */
+.app-main-header h4.title{
+    margin-left: 3px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* 内容区域副标题 */
+.app-main-header h4.sub-title{
+    font-size: 14px;
+    /*font-weight: 600;*/
+}
+.app-main-body {
+
+}
+
+/* 统一表格样式改造 */
+/*.table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th {*/
+    /*background-color: #eee;*/
+/*}*/
+/*.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {*/
+    /*background-color: #fff;*/
+/*}*/
+
+.table>thead>tr>th{
+    padding: 12px 15px;
+    /*background-color: #EEEEEE;*/
+    background-color: #e9eef5;
+}
+.table tr>td , .table tr>th{
+    font-size: 12px;
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+.table>tbody>tr>th, .table>tfoot>tr>th, .table>tbody>tr>td, .table>tfoot>tr>td{
+    padding: 12px 15px;
+}
+
+.table tr>td p ,.table tr>th p{
+    margin: 0px;
+}
+/*  调整奇偶环境 */
+/*.table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th{*/
+    /*background-color: #e9eef5;*/
+ /*}*/
+/*.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th{*/
+    /*background-color: #FFFFFF;*/
+/*}*/
+/*.table-bordered>tbody>tr>td{*/
+    /*border-color: #e4e9f1;*/
+/*}*/
+
+
+
+
+/*按钮设置*/
+.btn-danger{
+    border-color: #9da2a9;
+    background-color: #9da2a9;
+}
+.btn-danger:hover,btn-danger:focus{
+    border-color: #8d939c;
+    background-color: #8d939c;
+}
+.btn-info{
+    color: #fff;
+    background-color: #2f8cff;
+    border-color: #23b7e5;
+}
+.btn-info:hover,.btn-info:focus{
+    background-color: #5aa4ff;
+    border-color: #5aa4ff;
+    font-weight: normal;
+}
+.btn-mine{
+    color: #fff;
+    background-color: #2f8cff;
+    border-color: #23b7e5;
+}
+.btn-mine:hover{
+    background-color: #23b7e5;
+    border-color: #2f8cff;
+    font-weight: normal;
+}
+
+/* 左侧菜单区域样式调整 */
+.app-aside{
+    height: 100%;
+    overflow-y: auto;
+}
+.app-aside-folded .app-aside{
+    overflow-y: inherit;
+}
+
+.app-aside, .navbar-header {
+    width: 210px;
+}
+.navbar-collapse, .app-content, .app-footer {
+    margin-left: 210px;
+}
+.app-aside .navi ul.nav li a{
+    font-size: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.app-aside .navi ul.nav-sub li a{
+    font-size: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+.app-aside .navi ul.nav>li {
+    position: relative;
+    display: block;
+}
+.app-aside .nav-sub li{
+    font-size: 14px;
+    background-color: #373e46;
+}
+
+.app-aside-folded .glyphicon-th{
+    margin-top: -15px!important;
+}
+.app-aside-folded .icon-list {
+    margin-top: -11px!important;
+}
+.app-aside-folded .navi>ul>li>a i{
+    line-height: 25px;
+}
+
+.app-aside .nav>li:focus>a, .bg-dark .nav>li.active>a{
+    background-color: #5aa2ff;
+    border-color: #5aa2ff;
+}
+
+.app-aside .nav>li:hover>a{
+    background-color: #2f8cff;
+    border-color: #2f8cff;
+}
+
+.app-aside .nav>li.active >a .text-muted,.app-aside .nav>li:hover >a .text-muted{
+    color: #FFFFFF!important;
+}
+
+
+.app-aside .nav .nav-sub>li:hover>a, .app-aside .nav .nav-sub>li.active>a {
+    background-color: #373e46;
+}
+
+
+.app-aside-folded .app-aside .nav>li:focus>a, .bg-dark .nav>li.active>a{
+    background-color: #2f8cff;
+    border-color: #2f8cff;
+}
+
+/*.app-aside-folded .app-aside .nav>li:hover>a{*/
+    /*background-color: #5aa2ff;*/
+    /*border-color: #5aa2ff;*/
+/*}*/
+
+.app-aside-folded .app-aside .nav .nav-sub>li>a{
+    padding-top: 16px;
+    padding-bottom: 17px;
+    background-color: #5aa2ff;
+    color: #FFFFFF;
+}
+
+.app-aside-folded .app-aside .nav .nav-sub>li:hover>a{
+    background-color: #2f8cff;
+}
+
+.app-aside-folded .app-aside .nav .nav-sub>li.active>a{
+    background-color: #2f8cff;
+}
+
+.app-aside::-webkit-scrollbar
+{
+    width: 1px;
+    height: 16px;
+    background-color: #fff;
+    display: none;
+}
+.app-aside::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #fff;
+}
+.app-aside::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #C8C8C8;
+}
+
